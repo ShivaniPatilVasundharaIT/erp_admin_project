@@ -66,27 +66,43 @@ class _MyHomePageState extends State<MyHomePage> {
                             Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter an UserName';
-                                    }
-                                    {
-                                      return 'Please enter a valid UserName';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                    hintText: 'UserName',
-                                    labelText: 'UserName',
-                                    prefixIcon:
-                                        Icon(Icons.account_circle_sharp),
-                                    errorStyle: TextStyle(fontSize: 12.0),
-                                    border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(9.0)),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white60.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFEEECEC),
+                                        Color(0xFFEEECEC)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                  ),
+                                  child: TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter an UserName';
+                                      }
+                                      {
+                                        return 'Please enter a valid UserName';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: const InputDecoration(
+                                      hintText: 'UserName',
+                                      border: InputBorder.none,
+                                      prefixIcon:
+                                          Icon(Icons.account_circle_sharp),
+                                      errorStyle: TextStyle(fontSize: 12.0),
                                     ),
                                   ),
                                 ),
@@ -96,25 +112,48 @@ class _MyHomePageState extends State<MyHomePage> {
                             Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter a Password';
-                                    } else if (!RegExp(r'(?=.*?[#!@$%^&*-])')
-                                        .hasMatch(value)) {
-                                      return 'Please enter a Strong Password';
-                                    }
-                                    return null;
-                                  },
-                                  obscureText: true, // Hide password
-                                  decoration: const InputDecoration(
-                                    hintText: 'Password',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white60.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFEEECEC),
+                                        Color(0xFFEEECEC)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                  ),
+                                  child: TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a Password';
+                                      } else if (!RegExp(r'(?=.*?[#!@$%^&*-])')
+                                          .hasMatch(value)) {
+                                        return 'Please enter a Strong Password';
+                                      }
+                                      return null;
+                                    },
+                                    obscureText: true,
 
-                                    fillColor: Colors.grey,
-                                    labelText: 'Password',
-                                    prefixIcon: Icon(Icons.lock),
-                                    errorStyle: TextStyle(fontSize: 12.0),
-
+                                    textAlign: TextAlign.start, // Hide password
+                                    decoration: const InputDecoration(
+                                      hintText: 'Password',
+                                      prefixIcon: Icon(Icons.lock),
+                                      errorStyle: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -128,7 +167,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => ERP_HOME_SCREEN()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ERP_HOME_SCREEN()),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -137,12 +178,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     padding: EdgeInsets.symmetric(vertical: 15),
                                     elevation: 0,
-                                    primary: Colors.transparent, // Set the background color to transparent
+                                    primary: Colors
+                                        .transparent, // Set the background color to transparent
                                   ),
                                   child: Ink(
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
-                                        colors: [Colors.indigo, Colors.lightBlueAccent],
+                                        colors: [
+                                          Colors.indigo,
+                                          Colors.lightBlueAccent
+                                        ],
                                       ),
                                       borderRadius: BorderRadius.circular(30),
                                     ),
@@ -150,14 +195,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                       alignment: Alignment.center,
                                       child: const Text(
                                         'Login',
-                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       ),
