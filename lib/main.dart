@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-import 'Home_Screen.dart';
+import 'AdminScreen.dart'; // Import the AdminScreen
 
 void main() {
   runApp(const MyApp());
@@ -9,7 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,6 +33,52 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    final String baseUrl = 'http://192.168.1.15:8081/Mobile_Employee_Info';
+    final String userName = _usernameController.text;
+    final String password = _passwordController.text;
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/employee/login?userName=$userName&password=$password'),
+    );
+
+    if (response.statusCode == 200) {
+      // Successful login, navigate to the AdminScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ERP_HOME_SCREEN()), // Replace with the actual screen
+      );
+    } else {
+      // Failed login, show an error message
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Login failed. Please try again.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,169 +93,80 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
+      body: Padding(
+        padding: EdgeInsets.zero,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/Untitled (3).png"), fit: BoxFit.fill),
+          ),
           child: Center(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Form(
-                        // Use the GlobalKey for the form
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            // ... (your form fields and other widgets)
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white60.withOpacity(0.5),
-                                        spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFFEEECEC),
-                                        Color(0xFFEEECEC)
-                                      ],
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                    ),
-                                  ),
-                                  child: TextFormField(
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter an UserName';
-                                      }
-                                      {
-                                        return 'Please enter a valid UserName';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: const InputDecoration(
-                                      hintText: 'UserName',
-                                      border: InputBorder.none,
-                                      prefixIcon:
-                                          Icon(Icons.account_circle_sharp),
-                                      errorStyle: TextStyle(fontSize: 12.0),
-                                    ),
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/loginnnpng.png',
+                      height: 120,
+                      width: 120,
+                      alignment: Alignment.centerLeft,
+                    ),
+                    Container(
+                      // ... (rest of the container setup)
+                      child: Column(
+                        children: [
+                          // ... (text form fields)
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _usernameController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Username',
+                                    prefixIcon: Icon(Icons.account_box_rounded),
                                   ),
                                 ),
-                              ),
-                            ),
-                            // Example of TextFormField
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white60.withOpacity(0.5),
-                                        spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFFEEECEC),
-                                        Color(0xFFEEECEC)
-                                      ],
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                    ),
-                                  ),
-                                  child: TextFormField(
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter a Password';
-                                      } else if (!RegExp(r'(?=.*?[#!@$%^&*-])')
-                                          .hasMatch(value)) {
-                                        return 'Please enter a Strong Password';
-                                      }
-                                      return null;
-                                    },
-                                    obscureText: true,
-
-                                    textAlign: TextAlign.start, // Hide password
-                                    decoration: const InputDecoration(
-                                      hintText: 'Password',
-                                      prefixIcon: Icon(Icons.lock),
-                                      errorStyle: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                      border: InputBorder.none,
-                                    ),
+                                SizedBox(height: 16),
+                                TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    prefixIcon: Icon(Icons.lock),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(28.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 75,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ERP_HOME_SCREEN()),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    padding: EdgeInsets.symmetric(vertical: 15),
-                                    elevation: 0,
-                                    primary: Colors
-                                        .transparent, // Set the background color to transparent
-                                  ),
-                                  child: Ink(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.indigo,
-                                          Colors.lightBlueAccent
-                                        ],
+                                SizedBox(height: 24),
+                                SizedBox(
+                                  height: 50,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: _login,
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
-                                      borderRadius: BorderRadius.circular(30),
+                                      elevation: 0,
+                                      primary: Color(0xFF1A5288),
                                     ),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      child: const Text(
-                                        'Login',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

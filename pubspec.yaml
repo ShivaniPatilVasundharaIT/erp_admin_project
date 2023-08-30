@@ -57,6 +57,18 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/loginnnpng.png
+    - assets/backgraundlogin.png
+    - assets/loginnnpng1.png
+    - assets/back_login.png
+    - assets/back_login1.png
+    - assets/Rectangle 1 (2).png
+    - assets/erplogo.png
+    - assets/Untitled.png
+    - assets/Untitled (1).png
+    - assets/Untitled (2).png
+    - assets/Untitled (3).png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
